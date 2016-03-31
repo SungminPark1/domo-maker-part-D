@@ -1,0 +1,48 @@
+extends ./base.jade
+block append style
+    link(rel="stylesheet", type="text/css", href="/assets/style.css")
+block body
+  nav
+    a(href="/login")
+      img#logo(src="/assets/img/face.png", alt="face logo")
+    .navlink
+      a(href="/logout") Log out
+  section#makeDomo
+    form#domoForm(class="domoForm", name="domoForm", action="/maker", method="POST")
+      label(for="name") Name: 
+      input#domoName(type="text", name="name", placeholder="Domo Name")
+      label(for="age") Age: 
+      input#domoAge(type="text", name="age", placeholder="Domo Age")
+      label(for="level") Level: 
+      input#domoLevel(type="text", name="level", placeholder="Domo level")
+      input(type="hidden", name="_csrf", value="#{csrfToken}")
+      a#makeDomoSubmit(class="makeDomoSubmit", href="#") Make Domo
+  br
+  section#updateDomo
+    form#updateDomoForm(class="domoForm", name="updateDomoForm", action="/updateDomo", method="POST")
+      label(for="domoName") Name: 
+      input#updateDomoName(type="text", name="domoName", placeholder="Domo Name")
+      label(for="newAge") New Age: 
+      input#updateDomoAge(type="text", name="newAge", placeholder="Domo's New Age")
+      label(for="newLevel") New Level: 
+      input#updateDomoLevel(type="text", name="newLevel", placeholder="Domo's New level")
+      input(type="hidden", name="_csrf", value="#{csrfToken}")
+      a#submitDomoUpdate(class="makeDomoSubmit", href="#") Update Domo
+  section#domos
+    if !domos || domos.length == 0
+      div.domo
+        h3.emptyDomo No Domos Yet
+    else
+      each val in domos
+        div.domo
+          img(class="domoFace", src="/assets/img/domoface.jpeg", alt="domo face")
+          h3.domoName Name: #{val.name}
+          h3.domoAge Level: #{val.level}
+          h3.domoAge Age: #{val.age}
+  #domoMessage
+    img#speech(src="/assets/img/speech.png", alt="speech box")
+    h3
+      span#errorMessage
+    img#domo(src="assets/img/domo.png", alt="domo")
+block scripts
+        script(src="/assets/maker.js")
